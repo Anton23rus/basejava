@@ -18,7 +18,7 @@ public class ArrayStorage {
 
     public void update(Resume resume) {
         String uuid = resume.getUuid();
-        int index = existsElement(uuid);
+        int index = findIndex(uuid);
         if (index >= 0) {
             storage[index] = resume;
         } else {
@@ -29,7 +29,7 @@ public class ArrayStorage {
     public void save(Resume resume) {
         if (storageSize < storage.length) {
             String uuid = resume.getUuid();
-            if (existsElement(uuid) < 0) {
+            if (findIndex(uuid) < 0) {
                 storage[storageSize] = resume;
                 storageSize++;
             } else {
@@ -41,7 +41,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int index = existsElement(uuid);
+        int index = findIndex(uuid);
         if (index >= 0) {
             return storage[index];
         }
@@ -50,12 +50,10 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int index = existsElement(uuid);
+        int index = findIndex(uuid);
         if (index >= 0) {
-            storage[index] = null;
-            for (int i = index; i < storageSize; i++) {
-                storage[i] = storage[i + 1];
-            }
+            storage[index] = storage[storageSize - 1];
+            storage[storageSize - 1] = null;
             storageSize--;
         } else {
             System.out.println("Резюме uuid: " + uuid + " нет в базе!");
@@ -73,13 +71,13 @@ public class ArrayStorage {
         return storageSize;
     }
 
-    private int existsElement(String guid) {
-        int isExists = -1;
+    private int findIndex(String guid) {
+        int index = -1;
         for (int i = 0; i < storageSize; i++) {
             if (storage[i].getUuid().equals(guid)) {
-                isExists = i;
+                index = i;
             }
         }
-        return isExists;
+        return index;
     }
 }
