@@ -21,10 +21,9 @@ public abstract class AbstractArrayStorage implements Storage {
             throw new ExistStorageException(r.getUuid());
         } else if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
-        } else {
+        }
             saveToStorage(r, index);
             size++;
-        }
     }
 
     public void delete(String uuid) {

@@ -46,7 +46,7 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Overflow occurred too early");
         }
         storage.save(new Resume());
     }
@@ -72,7 +72,7 @@ public abstract class AbstractArrayStorageTest {
     public void update() {
         Resume resumeTest = new Resume(UUID_1);
         storage.update(resumeTest);
-        Assert.assertTrue(storage.get(UUID_1) == resumeTest);
+        Assert.assertEquals(storage.get(UUID_1), resumeTest);
     }
 
     @Test
