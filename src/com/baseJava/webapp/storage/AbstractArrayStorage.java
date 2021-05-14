@@ -1,7 +1,5 @@
 package com.baseJava.webapp.storage;
 
-import com.baseJava.webapp.exception.ExistStorageException;
-import com.baseJava.webapp.exception.NotExistStorageException;
 import com.baseJava.webapp.exception.StorageException;
 import com.baseJava.webapp.model.Resume;
 
@@ -10,66 +8,54 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10_000;
+public abstract class AbstractArrayStorage extends AbstractStorage {
+    protected static final int STORAGE_LIMIT = 10000;
+
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", r.getUuid());
-        }
-            saveToStorage(r, index);
-            size++;
+    public int sizeCollection() {
+        return size;
     }
 
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteFromStorage(index);
-            storage[size - 1] = null;
-            size--;
-        }
-    }
-
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            storage[index] = r;
-        }
-    }
-
-    public void clear() {
+    public void clearCollection() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public Resume[] getAll() {
+    public void updateCollection(Resume r, Object index) {
+        storage[(Integer) index] = r;
+    }
+
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
+    public Resume[] getAllCollection() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
-        return size;
-    }
-
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
+    public void saveCollection(Resume r, Object index) {
+        if (size == STORAGE_LIMIT) {
+            throw new StorageException("Storage overflow", r.getUuid());
         }
-        return storage[index];
+        insertElement(r, (Integer) index);
+        size++;
     }
 
-    protected abstract int getIndex(String uuid);
+    public void deleteCollection(Object index) {
+        fillDeletedElement((Integer) index);
+        storage[size - 1] = null;
+        size--;
+    }
 
-    protected abstract void saveToStorage(Resume resume, int index);
+    public Resume getCollectionElement(Object index) {
 
-    protected abstract void deleteFromStorage(int index);
+        return storage[(Integer) index];
+    }
+
+    protected abstract void fillDeletedElement(int index);
+
+    protected abstract void insertElement(Resume r, int index);
+
+
 }
