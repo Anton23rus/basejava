@@ -1,15 +1,15 @@
 package com.baseJava.webapp;
 
 import com.baseJava.webapp.model.Resume;
-import com.baseJava.webapp.storage.ArrayStorage;
+import com.baseJava.webapp.storage.ListStorage;
 import com.baseJava.webapp.storage.Storage;
 
 /**
  * Test for your com.baseJava.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new ArrayStorage();
-
+    //private static final Storage ARRAY_STORAGE = new ArrayStorage();
+    private static final Storage ARRAY_STORAGE = new ListStorage();
     // private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
