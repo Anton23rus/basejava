@@ -29,7 +29,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void deleteCollection(Object index) {
-        arrayList.remove((Integer) index);
+        arrayList.remove(((Integer) index).intValue());
     }
 
     @Override
