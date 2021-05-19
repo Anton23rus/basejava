@@ -50,7 +50,7 @@ public class ListStorage extends AbstractStorage {
                 return i;
             }
         }
-        return null;
+        return -1;
     }
 }
 

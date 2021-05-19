@@ -31,7 +31,9 @@ public abstract class AbstractStorage implements Storage {
 
     private Object getExistedElementIndex(String uuid) {
         Object index = getIndex(uuid);
-        if (index == null) {
+        if (index instanceof String) {
+            return index;
+        } else if ((Integer) index < 0) {
             throw new NotExistStorageException(uuid);
         }
         return index;
@@ -39,7 +41,9 @@ public abstract class AbstractStorage implements Storage {
 
     private Object getNotExistedElementIndex(String uuid) {
         Object index = getIndex(uuid);
-        if ( index != null) {
+        if (index instanceof String) {
+            throw new ExistStorageException(uuid);
+        } else if ((Integer) index >= 0) {
             throw new ExistStorageException(uuid);
         }
         return index;

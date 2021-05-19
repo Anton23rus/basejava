@@ -48,6 +48,6 @@ public class MapSorage extends AbstractStorage {
         if (map.get(uuid) != null) {
             return uuid;
         }
-        return null;
+        return -1;
     }
 }
