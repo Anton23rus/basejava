@@ -2,11 +2,11 @@ package com.baseJava.webapp.storage;
 
 import com.baseJava.webapp.model.Resume;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapSorage extends AbstractStorage {
-    private Map<String, Resume> map = new HashMap<>();
+    private Map<String, Resume> map = new LinkedHashMap<>();
 
     @Override
     public void clear() {
