@@ -6,44 +6,32 @@ import com.baseJava.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    public void clear() {
-        clearCollection();
-    }
-
     public void update(Resume resume) {
         String uuid = resume.getUuid();
         Object index = getExistedElementIndex(uuid);
-        updateCollection(resume, index);
+        updateData(resume, index);
     }
 
     public void save(Resume resume) {
         String uuid = resume.getUuid();
         Object index = getNotExistedElementIndex(uuid);
-        saveCollection(resume, index);
+        saveData(resume, index);
     }
 
     public Resume get(String uuid) {
         Object index = getExistedElementIndex(uuid);
-        Resume resume = getCollectionElement(index);
+        Resume resume = getData(index);
         return resume;
     }
 
     public void delete(String uuid) {
         Object index = getExistedElementIndex(uuid);
-        deleteCollection(index);
-    }
-
-    public Resume[] getAll() {
-        return getAllCollection();
-    }
-
-    public int size() {
-        return sizeCollection();
+        deleteData(index);
     }
 
     private Object getExistedElementIndex(String uuid) {
         Object index = getIndex(uuid);
-        if ((Integer) index < 0) {
+        if (index == null) {
             throw new NotExistStorageException(uuid);
         }
         return index;
@@ -51,25 +39,19 @@ public abstract class AbstractStorage implements Storage {
 
     private Object getNotExistedElementIndex(String uuid) {
         Object index = getIndex(uuid);
-        if ((Integer) index >= 0) {
+        if ( index != null) {
             throw new ExistStorageException(uuid);
         }
         return index;
     }
 
-    protected abstract void clearCollection();
+    protected abstract void updateData(Resume resume, Object index);
 
-    protected abstract void updateCollection(Resume resume, Object index);
+    protected abstract void saveData(Resume resume, Object index);
 
-    protected abstract void saveCollection(Resume resume, Object index);
+    protected abstract Resume getData(Object index);
 
-    protected abstract Resume getCollectionElement(Object index);
+    protected abstract void deleteData(Object index);
 
-    protected abstract void deleteCollection(Object index);
-
-    protected abstract Resume[] getAllCollection();
-
-    protected abstract int sizeCollection();
-
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getIndex(String uuid);
 }
