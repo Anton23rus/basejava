@@ -4,6 +4,7 @@ import com.baseJava.webapp.exception.StorageException;
 import com.baseJava.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -23,7 +24,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public void updateData(Resume r, Object index) {
+    public void updateResume(Resume r, Object index) {
         storage[(Integer) index] = r;
     }
 
@@ -34,7 +35,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public void saveData(Resume r, Object index) {
+    public void saveResume(Resume r, Object index) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         }
@@ -42,14 +43,24 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size++;
     }
 
-    public void deleteData(Object index) {
+    public void deleteResume(Object index) {
         fillDeletedElement((Integer) index);
         storage[size - 1] = null;
         size--;
     }
 
-    public Resume getData(Object index) {
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    public Resume getResume(Object index) {
         return storage[(Integer) index];
+    }
+
+    @Override
+    protected List<Resume> getResumeCollection() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0,size));
     }
 
     protected abstract void fillDeletedElement(int index);
