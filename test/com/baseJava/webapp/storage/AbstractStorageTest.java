@@ -6,6 +6,7 @@ import com.baseJava.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -56,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
-        storage.get("uuid4");
+        storage.update(RESUME_4);
     }
 
     @Test
@@ -80,7 +81,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
-        storage.get("uuid4");
+        storage.get(UUID_4);
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -93,10 +94,14 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() throws Exception {
         List<Resume> list = storage.getAllSorted();
-        assertEquals(3, list.size());
-        assertEquals(RESUME_1, list.get(0));
-        assertEquals(RESUME_2, list.get(1));
-        assertEquals(RESUME_3, list.get(2));
+        //assertEquals(3, list.size());
+        List<Resume> referenceList = new ArrayList<>();
+        referenceList.add(RESUME_1);
+        referenceList.add(RESUME_2);
+        referenceList.add(RESUME_3);
+        assertEquals(referenceList, list);
+
+
     }
 
     @Test

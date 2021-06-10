@@ -49,7 +49,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> list = getResumeCollection();
+        List<Resume> list = getResumeList();
         Collections.sort(list);
         return list;
     }
@@ -66,5 +66,5 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object searchKey);
 
-    protected abstract List<Resume> getResumeCollection();
+    protected abstract List<Resume> getResumeList();
 }
